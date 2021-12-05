@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- FLASH MESSAGES -->
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>    
+        {% endfor %}
+
+        <h1>Welcome to Flas(h/k) Cards {{current_user.user_name}} </h1>
+        <br>
+        <div class="row">
+            {% for deck in decks %}
+            <div class=" col-md-4 card" style="padding: 1%;">
+                <div class="card-body">
+                    <h3 style="text-align: center;">{{ deck.deck_name.upper() }} <a href="{{url_for('view_cards',deckid=deck.deck_id)}}"><i class="bi bi-arrow-up-right-square"></i></a></h3>
+                    <p>Last Reviewed this deck at: {{ deck.last_reviewed }}</p>
+                    <p>Deck Score: {{ deck.deck_score }}</p>
+                    <a href="{{url_for('delete_deck',deckid=deck.deck_id)}}" class="card-link">Delete Deck</a>
+                    <a href="{{url_for('edit_deck',deckid=deck.deck_id)}}" class="card-link">Edit Deck</a>
+                    <a href="{{url_for('add_card',deckid=deck.deck_id)}}" class="card-link">Add Card</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+        <h1>
+            <a href="{{ url_for('add_deck',currentUserId = current_user.user_id) }}" ><i class="bi bi-file-earmark-plus-fill"></i> </a>
+        </h1>
+{% endblock %}
