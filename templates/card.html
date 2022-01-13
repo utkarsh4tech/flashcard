@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- FLASH MESSAGES -->
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>    
+    {% endfor %}
+
+    <!-- DISPLAYING CARDS -->
+    <div class="row">
+        {% for card in cards %}
+        <div class=" col-md-4 card" style="padding: 1%;">
+            <div class="card-body" id="{{card.deck_id}}">
+                <h4 style="text-align: center;">Question : {{card.question}}</h4>
+                <br>
+                <p class="card-text">Last reviewed at : {{ card.last_reviewed }}</p>
+                <p class="card-text">Current Score : {{card.card_score}}</p>
+                <a href="{{url_for('review_card',cardid = card.id)}}" class="card-link">Review</a> 
+                <a href="{{url_for('edit_card',cardid = card.id)}}" class="card-link">Edit Card</a> 
+                <a href="{{ url_for('delete_card',cardid = card.id,deckid=card.deck_id) }}" style="margin-left: 50%;"><i class="bi bi-trash-fill"></i></a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    <h1>
+        <a href="{{ url_for('add_card',deckid=deckid) }}" style="bottom: 0;" ><i class="bi bi-plus-circle-fill"></i></a>
+    </h1>
+
+{% endblock %}
